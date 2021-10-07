@@ -226,7 +226,8 @@ contract roiDapp {
         if(total > address(this).balance) {
             total = (total * address(this).balance) / total;
         }
-        msg.sender.transfer(total);
+        (bool success, ) = msg.sender.call.value(total)("");
+        require(success, "Transfer failed.");
         emit Withdraw(msg.sender, total);
     }
 
